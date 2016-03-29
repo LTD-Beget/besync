@@ -1,0 +1,8 @@
+mysql_for_dump:
+  image: mysql:5.7
+  environment:
+    MYSQL_ROOT_PASSWORD: testpw
+  volumes:
+    - "./runtime/mysql:/var/lib/mysql"
+  ports:
+    - "3307:3306"
