@@ -1,0 +1,11 @@
+build:
+  build: .
+  volumes:
+    - "./:/usr/src/beget_mysqldump"
+    - "./build.sh:/entrypoint.sh:ro"
+    - "$HOME/.ssh:/root/ssh:ro"
+  working_dir: /usr/src/beget_mysqldump
+  entrypoint: /entrypoint.sh
+  environment:
+    - "GOBIN=/usr/src/beget_mysqldump/bin"
+  command: bash -c 'go get -v && go build -v --tags "libsqlite3 linux" && go install -v'

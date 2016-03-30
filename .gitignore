@@ -1,2 +1,7 @@
 *.iml
 .idea
+*.dump
+*.json
+*.db
+bin
+besync

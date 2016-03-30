@@ -1,0 +1,31 @@
+{
+  "SourceDb": {
+    "Name": "test001",
+    "Host": "127.0.0.1",
+    "Port": 3307,
+    "User": "root",
+    "Password": "testpw"
+  },
+  "TargetDb": {
+    "Name": "importdb",
+    "Host": "127.0.0.1",
+    "Port": 3307,
+    "User": "root",
+    "Password": "testpw"
+  },
+  "Export": {
+    "WithoutProxy": false,
+    "AddDropTable": true,
+    "AddDropTrigger": true,
+    "AddDropProcedure": true,
+    "NoData": false,
+    "MaxRowsPerStatement": 0,
+    "WorkersCount": 3,
+    "MaxWorkersOnLastTable": 3
+  },
+  "Proxy": {
+    "Host": "127.0.0.1",
+    "Port": 8081,
+    "ListenAddr": "127.0.0.1"
+  }
+}
