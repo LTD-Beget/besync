@@ -26,14 +26,14 @@ func init() {
     //    log.Fatal(err.Error())
     //}
 
-    flag.StringVar(&config.Mode, "mode", "http", "Running mode. May be export|http")
+    flag.StringVar(&config.Mode, "mode", "http", "Running mode. May be cli|http")
 
     // http
     flag.StringVar(&config.ModeServerListenHost, "http-host", "localhost", "[http mode] Listen host")
     flag.IntVar(&config.ModeServerListenPort, "http-port", 8080, "[http mode] Listen port")
 
     // export
-    flag.StringVar(&config.ModeExportConfigFile, "export-config", "", "[export mode] Json config path")
+    flag.StringVar(&config.ModeExportConfigFile, "cli-config", "", "[export mode] Json config path")
 
     flag.BoolVar(&config.Debug, "debug", false, "Enable debug mode")
 
@@ -53,7 +53,7 @@ func main() {
     log.Infof("Beget MySQL dumper starting...")
     log.Infof("Mode is '%s'", config.Mode)
 
-    if config.Mode == "export" {
+    if config.Mode == "cli" {
         var file []byte
         var err error
 

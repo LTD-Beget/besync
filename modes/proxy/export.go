@@ -54,15 +54,13 @@ type ExportSettings struct {
     AddDropTable          bool            // Add DROP TABLE statement before each CREATE TABLE statement
     AddDropProcedure      bool            // add DROP PROCEDURE statement before dump each procedure
     NoCreateTable         bool            //? Do not write CREATE TABLE statements that re-create each dumped table
-    NoTableData           bool            //? Do not dump table contents
 
-    NoData                bool
-    IncludeTables         map[string]bool // set of tables to dump (map instead of slice for simplified search)
-    ExcludeTables         map[string]bool // set of tables to exclude from dump (map instead of slice for simplified search)
-    NoDumpTriggers        bool
-    ExcludeTriggers       map[string]bool // set of triggers to exclude from dump (map instead of slice for simplified search)
-    NoViews               bool            // Do not dump views structure
-    NoProcedures          bool            // Do not dump any procedures
+    NoData                bool            // Do not dump table contents
+    IncludeTables         []string        // list of tables/views to dump. If empty, all tables was processed
+    ExcludeTables         []string        // list of tables/views to exclude from dump. If empty, no tables was excluded
+    ExcludeTriggers       []string        // list of triggers to exclude from dump. If empty, no triggers was excluded
+    NoViews               bool            // Do not dump views structure (n/u)
+    NoProcedures          bool            // Do not dump any procedures (n/u)
     NoLockTables          bool
     NoTransaction         bool
 }
@@ -457,13 +455,13 @@ func (s *exporter)loadSchema() error {
         return err
     }
     for _, tableName := range tables {
-        if _, ok := s.settings.Export.ExcludeTables[tableName]; ok {
+        if inSlice(s.settings.Export.ExcludeTables, tableName) {
             log.Debugf("[export] Table %v marked as excluded. Skipping...", tableName)
             continue
         }
 
         if len(s.settings.Export.IncludeTables) > 0 {
-            if _, ok := s.settings.Export.IncludeTables[tableName]; !ok {
+            if !inSlice(s.settings.Export.IncludeTables, tableName) {
                 log.Debugf("[export] Table %v not included in dump. Skipping...", tableName)
                 continue
             }
@@ -480,13 +478,13 @@ func (s *exporter)loadSchema() error {
         return err
     }
     for _, viewName := range views {
-        if _, ok := s.settings.Export.ExcludeTables[viewName]; ok {
+        if inSlice(s.settings.Export.ExcludeTables, viewName) {
             log.Debugf("[export] Table %v marked as excluded. Skipping...", viewName)
             continue
         }
 
         if len(s.settings.Export.IncludeTables) > 0 {
-            if _, ok := s.settings.Export.IncludeTables[viewName]; !ok {
+            if !inSlice(s.settings.Export.IncludeTables, viewName) {
                 log.Debugf("[export] Table %v not included in dump. Skipping...", viewName)
                 continue
             }
@@ -503,7 +501,7 @@ func (s *exporter)loadSchema() error {
         return err
     }
     for _, triggerName := range triggers {
-        if _, ok := s.settings.Export.ExcludeTriggers[triggerName]; ok {
+        if inSlice(s.settings.Export.ExcludeTriggers, triggerName) {
             log.Debugf("[export] Trigger %v marked as excluded. Skipping...", triggerName)
             continue
         }
@@ -576,4 +574,14 @@ func (s *exporter)startProxy() (*ProxyStartResponse, error) {
     }
 
     return proxyResponse, nil
+}
+
+func inSlice(slice []string, needle string) bool {
+    for _, v := range slice {
+        if v == needle {
+            return true
+        }
+    }
+
+    return false
 }
