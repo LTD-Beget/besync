@@ -1,4 +1,4 @@
-# BeSync
+# BeSync [![Build Status](https://travis-ci.org/LTD-Beget/besync.svg?branch=master)](https://travis-ci.org/LTD-Beget/besync)
 BeSync is a powerful MySQL database copy tool:
 
 - Written in golang and target binary has no dependencies
