@@ -7,7 +7,7 @@ addons:
   apt:
     packages:
     - libsqlite3-dev
-script: go build -v --tags "libsqlite3 linux"
+script: go build -v --tags "libsqlite3 linux" -ldflags "-X main.version=$TRAVIS_TAG -X main.commit=$TRAVIS_COMMIT"
 
 deploy:
   provider: releases

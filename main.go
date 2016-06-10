@@ -7,7 +7,11 @@ import (
     "io/ioutil"
     "encoding/json"
     "flag"
+    "fmt"
 )
+
+var version string
+var commit string
 
 type Config struct {
     Mode                 string `envconfig:"MODE" default:"http"`
@@ -20,12 +24,6 @@ type Config struct {
 var config Config
 
 func init() {
-    //err := envconfig.Process("MD", &config)
-
-    //if err != nil {
-    //    log.Fatal(err.Error())
-    //}
-
     flag.StringVar(&config.Mode, "mode", "http", "Running mode. May be cli|http")
 
     // http
@@ -37,7 +35,20 @@ func init() {
 
     flag.BoolVar(&config.Debug, "debug", false, "Enable debug mode")
 
+    // show version if needed
+    var showVersion bool
+    flag.BoolVar(&showVersion, "version", false, "show besync version")
+
     flag.Parse()
+
+    if showVersion {
+        if version == "" {
+            version = "dev"
+        }
+
+        fmt.Printf("%s %s\n", version, commit)
+        os.Exit(0)
+    }
 
     log.SetFormatter(&log.TextFormatter{FullTimestamp: true})
     log.SetOutput(os.Stdout)
