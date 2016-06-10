@@ -1,0 +1,12 @@
+sudo: required
+dist: trusty
+language: go
+go:
+  - 1.6
+
+addons:
+  apt:
+    packages:
+    - libsqlite3-dev
+
+script: go build -v --tags "libsqlite3 linux"
