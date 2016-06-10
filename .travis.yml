@@ -2,11 +2,19 @@ sudo: required
 dist: trusty
 language: go
 go:
-  - 1.6
-
+- 1.6
 addons:
   apt:
     packages:
     - libsqlite3-dev
-
 script: go build -v --tags "libsqlite3 linux"
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: Prl9viWEhLMW2fsZG1yU/DmRlK2XLg9/U0gQ9pJ/qZamuJvzbpw7OIOIHISLRGf5MXQ1wQ3PDEsmJTyFedutcn26c5hBvk+Uz0l+YJSicci2QBVrvJ/P+HLMbBRmJ6Sc5mt0VFwC11hQaBOwQB+EmFBhmI4obR1HbgqmozQL6KyvLcKshh5hjOtVTwl6nhEscd1bBiLhu8jAgUwIr1OrTiaph4A2rqhzhne6s8yDR/RE5WEr0n3v8jboitTyxn7X26wEmd29AOQWDT4hxdzAqWcHkU84Baqt2CPOFiW9RsHKiI4Zmrvx8TkcceqfnTAKr2Wjo51lVZxAtemNl2jkEq22LED1Fc6qoZuvUz/VKajPups4wrbz0M5SHDrpOLPLdHm1pPxD+G0YDHDcTKw7umGVzeQulQbER32l0jZQPiEdeQH/Cn92kQhoERJi18SHcIO098Sfsh5Tgzr6pg97dNkZMeNdmiAPg8z92XqBkleAd9Jwz4JHLT3BknDE2oCNw1gHjR32/4BCsIZqKo3YAnYG3j6hhj8Nx+2oQmCEVJW728NpvzX5ypR5MwJ8fsIpPS70mL2DFcEgar+WGj1gPOvL4kz7y+nDnRFU9IMLhitV3Ekja+StDUoXIATbmnVb2iP0HtCjjagBcO66Wlk3/lwDJOcj9P+EirykHVK8WHQ=
+  file: 'besync'
+  on:
+    repo: LTD-Beget/besync
+    tags: true
