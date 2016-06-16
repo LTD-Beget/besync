@@ -1,3 +1,4 @@
+// codebeat:disable[TOO_MANY_IVARS,TOTAL_LOC]
 package inspector
 
 import (
