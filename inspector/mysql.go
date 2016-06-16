@@ -223,21 +223,25 @@ func (i *mysqlInspector)ColumnTypes(tableName string) (map[string]*Column, error
             return nil, err
         }
 
-        col := i.parseColumnType(field, colType, isNull, key, extra, defaultValue, rowIndex)
+        col := makeColumn(field, rowIndex, colType)
+        col.parseColumnType(isNull, key, extra, defaultValue)
         columnTypes[field] = col
         rowIndex += 1
     }
 
     return columnTypes, nil
 }
-func (i *mysqlInspector)parseColumnType(field, colType, isNull, key, extra string, defaultValue sql.NullString, index int) *Column {
-    col := &Column{
+
+func makeColumn(field string, index int, sqlType string) *Column {
+    return &Column{
         Name: field,
         Index: index,
-        SqlType: colType,
+        SqlType: sqlType,
     }
+}
 
-    colTypeParts := strings.Split(colType, " ")
+func (col *Column)parseColumnType(isNull, key, extra string, defaultValue sql.NullString) *Column {
+    colTypeParts := strings.Split(col.SqlType, " ")
 
     if braceIdx := strings.Index(colTypeParts[0], "("); braceIdx > 0 {
         col.ColType = colTypeParts[0][0:braceIdx]
