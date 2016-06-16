@@ -15,7 +15,7 @@ Simply run container with docker-compose: `docker-compose up`
 ### Manually
 - Install Go 1.6 and configure env variables
 - Install libsqlite3-dev. For example, in ubuntu execute command `apt-get install libsqlite3-dev`
-- Build the executable: `go get -v && go build -v --tags "libsqlite3 linux"`
+- Build the executable: `go get -v && go build -v --tags "libsqlite3 linux"`. If you want build an executable statically, add `-ldflags "-extldflags '-static'` to build command.
 
 ## Working modes
 BeSync can works in two modes: as regular cli command and as daemon

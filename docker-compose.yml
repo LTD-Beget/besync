@@ -5,4 +5,4 @@ build:
   working_dir: /usr/src/besync
   environment:
     - "GOBIN=/usr/src/besync/bin"
-  command: bash -c 'go get -v && go build -v --tags "libsqlite3 linux" && go install -v'
+  command: bash -c 'go get -v && go build -v --tags "libsqlite3 linux" -ldflags '\''-extldflags "-static"'\'' && go install -v'
